@@ -1,0 +1,23 @@
+on run {input, parameters}
+	
+	tell application "Safari"
+		activate
+		make new document
+		set searchURL to "https://www.youtube.com/results?search_query=" & input
+		set URL of front document to searchURL
+		delay 3
+		do JavaScript "document.querySelectorAll('a#video-title')[0].click();" in front document
+		delay 5
+		do JavaScript "
+    var mixItem = document.querySelector('a[href*=\"/watch?v=\"][href*=\"&list=RDMM\"][href*=\"&start_radio=1\"]');
+    if (mixItem) {
+        mixItem.click();
+    } else {
+        var firstVideo = document.querySelectorAll('a#video-title')[0];
+        if (firstVideo) {
+            firstVideo.click();
+        }
+    }
+    " in front document
+	end tell
+end run
